@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>danmu</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/palette-color-picker.css">
+    <link rel="stylesheet" href="css/palette-color-picker.scss">
+
+
+</head>
+<body>
+    <div class="main">
+        <div class="type">
+            <div class="type_in">
+                <div class="type_in_top"><span class="glyphicon glyphicon-cog" aria-hidden="true" onclick="show()"></span><input type="text" placeholder="try something..." id="info" class="form-control">
+                    <div class="config form-horizontal">
+                            <div class="form-group">
+                                <label for="fs" class="col-xs-4 control-label">字体大小</label>
+                                <div class="col-xs-8">
+                                    <select class="form-control" id="fs">
+                                        <option value="24">24</option>
+                                        <option value="26">26</option>
+                                        <option value="28">28</option>
+                                        <option value="30">30</option>
+                                        <option value="32">32</option>
+                                        <option value="34">34</option>
+                                        <option value="36">36</option>
+                                        <option value="38">38</option>
+                                        <option value="40">40</option>
+                                        <option value="42">42</option>
+                                        <option value="44">44</option>
+                                        <option value="46">46</option>
+                                    </select>
+                                </div>
+                            </div>
+                        <div class="form-group">
+                            <label for="fc" class="col-xs-4 control-label">字体颜色</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" value="#000000" id="fc" data-palette='["#D50000","#304FFE","#00B8D4","#00C853","#FFD600","#FF6D00","#536DFE","#18FFFF","#69F0AE","#FFFF00","#FFAB40"]'  name="fc">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fstyle" class="col-xs-4 control-label">字形</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" id="fstyle">
+                                    <option value="黑体">黑体</option>
+                                    <option value="宋体">宋体</option>
+                                    <option value="Microsoft YaHei">微软雅黑</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="speed" class="col-xs-4 control-label">速度</label>
+                            <div class="col-xs-8">
+                                <input type="number" class="form-control" value="100" id="speed" min="100">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="speedstyle" class="col-xs-4 control-label">速度变化</label>
+                            <div class="col-xs-8">
+                                <select class="form-control" id="speedstyle">
+                                    <option value="linear">匀速</option>
+                                    <option value="ease">中间快两边慢</option>
+                                    <option value="ease-in">加速</option>
+                                    <option value="ease-out">减速</option>
+                                    <option value="ease-in-out">慢速开始和结束</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="opacity" class="col-xs-4 control-label">透明度</label>
+                            <div class="col-xs-8">
+                                <input class="form-control" id="opacity" type="number" value="1" min="0" max="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="type_button"><input type="button" value="fire"  class="type_b1 btn btn-success btn-lg" onclick="addinfo()">
+                    <input type="button" value="clear" class="type_b2 btn btn-warning btn-lg" onclick="clearinfo()">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="js/palette-color-picker.js"></script>
+<script type="text/javascript">
+    function show(){
+        if($(".config").css("display")=='none'){
+        $(".config").fadeIn("2s");}
+        else{
+            $(".config").fadeOut("fast");
+        }
+    }
+    var i=0;
+    function addinfo() {
+
+        var fs=$("#fs").val();
+        var fc=$("#fc").val();
+        var fstyle=$("#fstyle").val();
+        var speed=$("#speed").val();
+        var speedstyle=$("#speedstyle").val();
+        var op=$("#opacity").val();
+        var info=$("#info").val();
+        var templete="<span class='main_info' id='main_info"+i+"' style='position: absolute;animation:move "+$(window).width()/speed+"s "+speedstyle+" infinite;font-family:"+fstyle+";color:"+fc+";font-size:"+fs+"px;opacity:"+op+";right: 0;top:"+Math.random()*100+"%'>"+info+" </span>";
+        $(".main").append(templete);
+        $("#main_info"+i+"").css("animation","move "+$(window).width()/speed+"s "+speedstyle+" infinite")
+        $("#info").val(null);
+        i++;
+    }
+    function clearinfo() {
+        $(".main_info").remove();
+
+    }
+    $(document).ready(function(){
+        $('[name="fc"]').paletteColorPicker(
+            {
+                // Color in { key: value } format
+
+                // Add custom class to the picker
+                custom_class: 'double',
+                // Force the position of picker's bubble
+                position: 'upside', // default -> 'upside'
+                // Where is inserted the color picker's button, related to the input
+                insert: 'before', // default -> 'before'
+                // Clear button on last position
+                clear_btn: 'last', // default -> 'first'
+                // Timeout for the picker's fade out in ms
+                timeout: 2000 // default -> 2000
+            }
+        );
+        $(".config").hide();
+    });
+</script>
+</html>
